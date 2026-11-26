@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OfficeSupply Online</title>
+    <script>
+        (function () {
+            const CHAVE = 'officesupply_ab_variant';
+            const params = new URLSearchParams(window.location.search);
+            let variante = null;
+
+            try {
+                // Permite limpar o sorteio para testar novamente (?reset=1)
+                if (params.get('reset') === '1') {
+                    localStorage.removeItem(CHAVE);
+                }
+
+                variante = localStorage.getItem(CHAVE);
+
+                // Divisão 50/50 na primeira visita
+                if (variante !== 'A' && variante !== 'B') {
+                    variante = Math.random() < 0.5 ? 'A' : 'B';
+                    localStorage.setItem(CHAVE, variante);
+                }
+            } catch (e) {
+                variante = Math.random() < 0.5 ? 'A' : 'B';
+            }
+
+            const destino = variante === 'A'
+                ? 'product-page-control.html'
+                : 'product-page-variant.html';
+
+            window.location.replace(destino);
+        })();
+    </script>
+</head>
+<body>
+    <p>Redirecionando para a página do produto...</p>
+    <noscript>
+        <p>JavaScript está desativado. Acesse diretamente:</p>
+        <ul>
+            <li><a href="product-page-control.html">Versão A (Controle)</a></li>
+            <li><a href="product-page-variant.html">Versão B (Variante)</a></li>
+        </ul>
+    </noscript>
+</body>
+</html>
